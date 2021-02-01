@@ -1,0 +1,17 @@
+server:
+  port: 9002
+spring:
+  application:
+    name: eureka-feign-client-server
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8888/eureka/,http://localhost:9000/eureka/
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

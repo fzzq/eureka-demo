@@ -1,0 +1,15 @@
+server:
+  port: 8888
+  context-path: /demo
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: true #是否将自己注册为服务
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:9000/eureka/,http://localhost:8888/eureka/
+spring:
+  application:
+    name: eurekaServer_1
