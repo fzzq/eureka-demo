@@ -1,7 +1,10 @@
 spring:
+  application:
+    name: config-client
   cloud:
     config:
       uri: http://localhost:9004
+      fail-fast: true
+  profiles:
+    active: prod
 
-server:
-  port: {server.port}
