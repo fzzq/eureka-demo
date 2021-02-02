@@ -18,16 +18,10 @@
         <spring-cloud.version>2020.0.0</spring-cloud.version>
     </properties>
     <dependencies>
-        <!--GateWay ⽹关-->
-        <dependency>　　
-            <groupId>org.springframework.cloud</groupId>　　
-            <artifactId>spring-cloud-starter-gateway</artifactId>
-        </dependency>
-        <!--引⼊webflux-->
-        <dependency>　　
-            <groupId>org.springframework.boot</groupId> 　　
-            <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>
+       <!-- <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zuul</artifactId>
+        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
