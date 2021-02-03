@@ -10,7 +10,13 @@ public class hicontroller {
     @RequestMapping("/hi")
     @ResponseBody
     public String sayHi(String name) {
-        return "client——2"+"      "+ name;
+        return "client——2"+"      ";
+    }
+
+    @RequestMapping("/test2/hi")
+    @ResponseBody
+    public String sayHi2(String name) {
+        return "client——2"+"    /test2/hi  ";
     }
 
 }

@@ -20,8 +20,8 @@ public class ribbonController {
     @Autowired
     private LoadBalancerClient  loadBalanced;
 
-    @RequestMapping("/hi")
-    @ResponseBody
+//    @RequestMapping("/hi")
+//    @ResponseBody
     public String sayHi(){
         String forObject = restTemplate.getForObject("http://eureka-client/hi", String.class);
         ServiceInstance serviceInstance = loadBalanced.choose("eureka-client");

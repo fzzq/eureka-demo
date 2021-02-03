@@ -1,20 +1,25 @@
 server:
   port: 9003
 spring:
-  application:
-    name: api-gateway
   cloud:
     gateway:
+      #可以根据请求参数,cookie,host,请求时间,请求头等进行校验判断路由, 下面根据先后顺序转发
       routes:
-        -id: gateway-service
-          uri: https://www.baidu.com
-          order: 0
+        - id: eureka-server-2
+          uri: http://httpbin.org/get
           predicates:
-            -Query=smile
+            - Path=/test/**
+        - id: eureka-server-2
+          uri: lb://eureka-client
+          predicates:
+            - Path=/test2/**
 
+  application:
+    name: getway-server
 eureka:
   instance:
     prefer-ip-address: true
   client:
     service-url:
       defaultZone: http://localhost:9000/eureka/,http://localhost:8888/eureka/
+
