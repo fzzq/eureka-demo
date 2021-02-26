@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fzq.EecelImport.dao.TbmCodeClassMapper">
+  <resultMap id="BaseResultMap" type="com.fzq.EecelImport.entity.TbmCodeClass">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="ttm1" jdbcType="INTEGER" property="ttm1" />
+    <result column="ttm2" jdbcType="INTEGER" property="ttm2" />
+    <result column="ttm3" jdbcType="INTEGER" property="ttm3" />
+    <result column="ttm4" jdbcType="INTEGER" property="ttm4" />
+    <result column="ttm5" jdbcType="INTEGER" property="ttm5" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, code, ttm1, ttm2, ttm3, ttm4, ttm5, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbm_code_class
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbm_code_class
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fzq.EecelImport.entity.TbmCodeClass">
+    insert into tbm_code_class (id, name, code, 
+      ttm1, ttm2, ttm3, ttm4, 
+      ttm5, remark)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{ttm1,jdbcType=INTEGER}, #{ttm2,jdbcType=INTEGER}, #{ttm3,jdbcType=INTEGER}, #{ttm4,jdbcType=INTEGER}, 
+      #{ttm5,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fzq.EecelImport.entity.TbmCodeClass">
+    insert into tbm_code_class
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="ttm1 != null">
+        ttm1,
+      </if>
+      <if test="ttm2 != null">
+        ttm2,
+      </if>
+      <if test="ttm3 != null">
+        ttm3,
+      </if>
+      <if test="ttm4 != null">
+        ttm4,
+      </if>
+      <if test="ttm5 != null">
+        ttm5,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="ttm1 != null">
+        #{ttm1,jdbcType=INTEGER},
+      </if>
+      <if test="ttm2 != null">
+        #{ttm2,jdbcType=INTEGER},
+      </if>
+      <if test="ttm3 != null">
+        #{ttm3,jdbcType=INTEGER},
+      </if>
+      <if test="ttm4 != null">
+        #{ttm4,jdbcType=INTEGER},
+      </if>
+      <if test="ttm5 != null">
+        #{ttm5,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fzq.EecelImport.entity.TbmCodeClass">
+    update tbm_code_class
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="ttm1 != null">
+        ttm1 = #{ttm1,jdbcType=INTEGER},
+      </if>
+      <if test="ttm2 != null">
+        ttm2 = #{ttm2,jdbcType=INTEGER},
+      </if>
+      <if test="ttm3 != null">
+        ttm3 = #{ttm3,jdbcType=INTEGER},
+      </if>
+      <if test="ttm4 != null">
+        ttm4 = #{ttm4,jdbcType=INTEGER},
+      </if>
+      <if test="ttm5 != null">
+        ttm5 = #{ttm5,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fzq.EecelImport.entity.TbmCodeClass">
+    update tbm_code_class
+    set name = #{name,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      ttm1 = #{ttm1,jdbcType=INTEGER},
+      ttm2 = #{ttm2,jdbcType=INTEGER},
+      ttm3 = #{ttm3,jdbcType=INTEGER},
+      ttm4 = #{ttm4,jdbcType=INTEGER},
+      ttm5 = #{ttm5,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

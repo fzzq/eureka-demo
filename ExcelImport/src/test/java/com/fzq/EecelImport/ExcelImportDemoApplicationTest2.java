@@ -1,16 +1,5 @@
-package com.fzq.EecelImport.controller;
+package com.fzq.EecelImport;
 
-import com.fzq.EecelImport.entity.SimilarTest;
-import com.fzq.EecelImport.entity.TbmCodeClass;
-import com.fzq.EecelImport.service.TbmCodeClassService;
-import com.fzq.EecelImport.service.TestService;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,63 +9,25 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
-@Controller
-public class TestController {
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-    @Autowired
-    private TestService testService;
-
-    @Autowired
-    private TbmCodeClassService tbmCodeClassService;
-
-    @ResponseBody
-    @RequestMapping("/test")
-    public String getHellow() {
-        List<SimilarTest> all = testService.findAll();
-
-        return all.toString();
-
-    }
+public class ExcelImportDemoApplicationTest2 {
 
 
-    @ResponseBody
-    @RequestMapping("/import")
-    public String importExcel() {
+    public static void main(String[] args) {
         String filePath = "C:\\Users\\Administrator\\Desktop\\掘进机参数编码final.xlsx";
         List<Map<String, String>> maps = readExcel2(filePath);
-        System.out.println(maps);
-        ArrayList<TbmCodeClass> codeClasses = new ArrayList<>();
-        int successNum= 0 ;
-        for (Map<String, String> map : maps) {
-            TbmCodeClass tbmCodeClass = new TbmCodeClass();
-            tbmCodeClass.setName(map.get("name"));
-            tbmCodeClass.setCode(map.get("code"));
-            tbmCodeClass.setTtm1(boolenFlagConvert(map.get("ttm1")));
-            tbmCodeClass.setTtm2(boolenFlagConvert(map.get("ttm2")));
-            tbmCodeClass.setTtm3(boolenFlagConvert(map.get("ttm3")));
-            tbmCodeClass.setTtm4(boolenFlagConvert(map.get("ttm4")));
-            tbmCodeClass.setTtm5(boolenFlagConvert(map.get("ttm5")));
-            tbmCodeClass.setRemark(map.get("remark"));
-            successNum+= tbmCodeClassService.save(tbmCodeClass);
-            codeClasses.add(tbmCodeClass);
-        }
-
-        return codeClasses.toString();
     }
 
-    public Integer boolenFlagConvert(String flag) {
-        switch (flag) {
-            case "是":
-                return 1;
-            case "否":
-                return 0;
-        }
-        return null;
-    }
-
-
-    public List<Map<String, String>> readExcel2(String filePath) {
+    public static List<Map<String, String>> readExcel2(String  filePath){
         Workbook wb = null;
         Sheet sheet = null;
         Row row = null;
@@ -84,13 +35,13 @@ public class TestController {
         String cellData = null;
 
         String columns[] = {
-                "name",
-                "code",
-                "ttm1",
-                "ttm2",
-                "ttm3",
-                "ttm4",
-                "ttm5"
+                "子系统统",
+                "编码",
+                "敞开式TBM",
+                "护盾式TBM",
+                "土压平衡盾构",
+                "泥水平衡盾构",
+                "顶管"
         };
         wb = readExcel(filePath);
         if (wb != null) {
@@ -120,7 +71,7 @@ public class TestController {
         }
         //遍历解析出来的list
         for (Map<String, String> map : list) {
-            for (Map.Entry<String, String> entry : map.entrySet()) {
+            for (Entry<String, String> entry : map.entrySet()) {
                 System.out.print(entry.getKey() + ":" + entry.getValue() + ",");
             }
             System.out.println();
@@ -189,5 +140,5 @@ public class TestController {
         return cellValue;
     }
 
-
 }
+
