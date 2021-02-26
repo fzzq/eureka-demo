@@ -25,12 +25,17 @@ spring:
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
 
 server:
-  port: 9001
+  port: 9004
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8888/eureka/,http://localhost:9000/eureka/
-  instance:
-    prefer-ip-address: true
+
+
+# MyBatis配置
+mybatis:
+  # 搜索指定包别名
+  typeAliasesPackage: com.fzq.EecelImport.entity
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  # 加载全局的配置文件
+  configLocation: classpath:mybatis/mybatis-config.xml
+
 
