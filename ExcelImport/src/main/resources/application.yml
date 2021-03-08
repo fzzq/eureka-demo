@@ -39,3 +39,9 @@ mybatis:
   configLocation: classpath:mybatis/mybatis-config.xml
 
 
+elasticsearch:
+  host: 10.53.221.111
+  port: 9200
+  clusterName: my-application
+
+

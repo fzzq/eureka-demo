@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fzq.EecelImport.dao.TbmCodeClassMapper">
-  <resultMap id="BaseResultMap" type="com.fzq.EecelImport.entity.TbmCodeClass">
+<mapper namespace="com.fzq.EecelImport.dao.TbmCodeGlobalMapper">
+  <resultMap id="BaseResultMap" type="com.fzq.EecelImport.entity.TbmCodeGlobal">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="root_name" jdbcType="VARCHAR" property="rootName" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="ttm1" jdbcType="INTEGER" property="ttm1" />
     <result column="ttm2" jdbcType="INTEGER" property="ttm2" />
     <result column="ttm3" jdbcType="INTEGER" property="ttm3" />
     <result column="ttm4" jdbcType="INTEGER" property="ttm4" />
     <result column="ttm5" jdbcType="INTEGER" property="ttm5" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="pre_code" jdbcType="VARCHAR" property="preCode" />
+    <result column="pre_name" jdbcType="VARCHAR" property="preName" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.fzq.EecelImport.entity.TbmCodeGlobal">
+    <result column="remark" jdbcType="LONGVARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,16 +77,21 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, code, ttm1, ttm2, ttm3, ttm4, ttm5, remark
+    id, root_name, name, code, unit, ttm1, ttm2, ttm3, ttm4, ttm5, pre_code, pre_name
   </sql>
-  <select id="selectByExample" parameterType="com.fzq.EecelImport.entity.TbmCodeClassExample" resultMap="BaseResultMap">
+  <sql id="Blob_Column_List">
+    remark
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.fzq.EecelImport.entity.TbmCodeGlobalExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
       distinct
     </if>
     'false' as QUERYID,
     <include refid="Base_Column_List" />
-    from tbm_code_class
+    ,
+    <include refid="Blob_Column_List" />
+    from tbm_code_global
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -88,35 +99,60 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.fzq.EecelImport.entity.TbmCodeGlobalExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tbm_code_global
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
-    from tbm_code_class
+    ,
+    <include refid="Blob_Column_List" />
+    from tbm_code_global
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from tbm_code_class
+    delete from tbm_code_global
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.fzq.EecelImport.entity.TbmCodeClass">
-    insert into tbm_code_class (id, name, code, 
-      ttm1, ttm2, ttm3, ttm4, 
-      ttm5, remark)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
-      #{ttm1,jdbcType=INTEGER}, #{ttm2,jdbcType=INTEGER}, #{ttm3,jdbcType=INTEGER}, #{ttm4,jdbcType=INTEGER}, 
-      #{ttm5,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.fzq.EecelImport.entity.TbmCodeGlobal">
+    insert into tbm_code_global (id, root_name, name, 
+      code, unit, ttm1, ttm2, 
+      ttm3, ttm4, ttm5, pre_code, 
+      pre_name, remark)
+    values (#{id,jdbcType=INTEGER}, #{rootName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{ttm1,jdbcType=INTEGER}, #{ttm2,jdbcType=INTEGER}, 
+      #{ttm3,jdbcType=INTEGER}, #{ttm4,jdbcType=INTEGER}, #{ttm5,jdbcType=INTEGER}, #{preCode,jdbcType=VARCHAR}, 
+      #{preName,jdbcType=VARCHAR}, #{remark,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.fzq.EecelImport.entity.TbmCodeClass">
-    insert into tbm_code_class
+  <insert id="insertSelective" parameterType="com.fzq.EecelImport.entity.TbmCodeGlobal">
+    insert into tbm_code_global
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="rootName != null">
+        root_name,
       </if>
       <if test="name != null">
         name,
       </if>
       <if test="code != null">
         code,
+      </if>
+      <if test="unit != null">
+        unit,
       </if>
       <if test="ttm1 != null">
         ttm1,
@@ -133,6 +169,12 @@
       <if test="ttm5 != null">
         ttm5,
       </if>
+      <if test="preCode != null">
+        pre_code,
+      </if>
+      <if test="preName != null">
+        pre_name,
+      </if>
       <if test="remark != null">
         remark,
       </if>
@@ -141,11 +183,17 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="rootName != null">
+        #{rootName,jdbcType=VARCHAR},
+      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="code != null">
         #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
       </if>
       <if test="ttm1 != null">
         #{ttm1,jdbcType=INTEGER},
@@ -162,22 +210,34 @@
       <if test="ttm5 != null">
         #{ttm5,jdbcType=INTEGER},
       </if>
+      <if test="preCode != null">
+        #{preCode,jdbcType=VARCHAR},
+      </if>
+      <if test="preName != null">
+        #{preName,jdbcType=VARCHAR},
+      </if>
       <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
+        #{remark,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByExampleSelective" parameterType="map">
-    update tbm_code_class
+    update tbm_code_global
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.rootName != null">
+        root_name = #{record.rootName,jdbcType=VARCHAR},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.code != null">
         code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
       </if>
       <if test="record.ttm1 != null">
         ttm1 = #{record.ttm1,jdbcType=INTEGER},
@@ -194,37 +254,71 @@
       <if test="record.ttm5 != null">
         ttm5 = #{record.ttm5,jdbcType=INTEGER},
       </if>
+      <if test="record.preCode != null">
+        pre_code = #{record.preCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.preName != null">
+        pre_name = #{record.preName,jdbcType=VARCHAR},
+      </if>
       <if test="record.remark != null">
-        remark = #{record.remark,jdbcType=VARCHAR},
+        remark = #{record.remark,jdbcType=LONGVARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map">
-    update tbm_code_class
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update tbm_code_global
     set id = #{record.id,jdbcType=INTEGER},
+      root_name = #{record.rootName,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       code = #{record.code,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
       ttm1 = #{record.ttm1,jdbcType=INTEGER},
       ttm2 = #{record.ttm2,jdbcType=INTEGER},
       ttm3 = #{record.ttm3,jdbcType=INTEGER},
       ttm4 = #{record.ttm4,jdbcType=INTEGER},
       ttm5 = #{record.ttm5,jdbcType=INTEGER},
-      remark = #{record.remark,jdbcType=VARCHAR}
+      pre_code = #{record.preCode,jdbcType=VARCHAR},
+      pre_name = #{record.preName,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.fzq.EecelImport.entity.TbmCodeClass">
-    update tbm_code_class
+  <update id="updateByExample" parameterType="map">
+    update tbm_code_global
+    set id = #{record.id,jdbcType=INTEGER},
+      root_name = #{record.rootName,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      ttm1 = #{record.ttm1,jdbcType=INTEGER},
+      ttm2 = #{record.ttm2,jdbcType=INTEGER},
+      ttm3 = #{record.ttm3,jdbcType=INTEGER},
+      ttm4 = #{record.ttm4,jdbcType=INTEGER},
+      ttm5 = #{record.ttm5,jdbcType=INTEGER},
+      pre_code = #{record.preCode,jdbcType=VARCHAR},
+      pre_name = #{record.preName,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fzq.EecelImport.entity.TbmCodeGlobal">
+    update tbm_code_global
     <set>
+      <if test="rootName != null">
+        root_name = #{rootName,jdbcType=VARCHAR},
+      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="code != null">
         code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
       </if>
       <if test="ttm1 != null">
         ttm1 = #{ttm1,jdbcType=INTEGER},
@@ -241,22 +335,47 @@
       <if test="ttm5 != null">
         ttm5 = #{ttm5,jdbcType=INTEGER},
       </if>
+      <if test="preCode != null">
+        pre_code = #{preCode,jdbcType=VARCHAR},
+      </if>
+      <if test="preName != null">
+        pre_name = #{preName,jdbcType=VARCHAR},
+      </if>
       <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
+        remark = #{remark,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.fzq.EecelImport.entity.TbmCodeClass">
-    update tbm_code_class
-    set name = #{name,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.fzq.EecelImport.entity.TbmCodeGlobal">
+    update tbm_code_global
+    set root_name = #{rootName,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
       code = #{code,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
       ttm1 = #{ttm1,jdbcType=INTEGER},
       ttm2 = #{ttm2,jdbcType=INTEGER},
       ttm3 = #{ttm3,jdbcType=INTEGER},
       ttm4 = #{ttm4,jdbcType=INTEGER},
       ttm5 = #{ttm5,jdbcType=INTEGER},
-      remark = #{remark,jdbcType=VARCHAR}
+      pre_code = #{preCode,jdbcType=VARCHAR},
+      pre_name = #{preName,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fzq.EecelImport.entity.TbmCodeGlobal">
+    update tbm_code_global
+    set root_name = #{rootName,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      ttm1 = #{ttm1,jdbcType=INTEGER},
+      ttm2 = #{ttm2,jdbcType=INTEGER},
+      ttm3 = #{ttm3,jdbcType=INTEGER},
+      ttm4 = #{ttm4,jdbcType=INTEGER},
+      ttm5 = #{ttm5,jdbcType=INTEGER},
+      pre_code = #{preCode,jdbcType=VARCHAR},
+      pre_name = #{preName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

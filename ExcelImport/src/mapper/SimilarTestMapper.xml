@@ -150,11 +150,4 @@
     set value = #{value,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-
-  <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from similar_test
-  </select>
 </mapper>

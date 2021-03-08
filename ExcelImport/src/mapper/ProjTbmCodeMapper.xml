@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fzq.EecelImport.dao.TbmCodeClassMapper">
-  <resultMap id="BaseResultMap" type="com.fzq.EecelImport.entity.TbmCodeClass">
+<mapper namespace="com.fzq.EecelImport.dao.ProjTbmCodeMapper">
+  <resultMap id="BaseResultMap" type="com.fzq.EecelImport.entity.ProjTbmCode">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="code" jdbcType="VARCHAR" property="code" />
-    <result column="ttm1" jdbcType="INTEGER" property="ttm1" />
-    <result column="ttm2" jdbcType="INTEGER" property="ttm2" />
-    <result column="ttm3" jdbcType="INTEGER" property="ttm3" />
-    <result column="ttm4" jdbcType="INTEGER" property="ttm4" />
-    <result column="ttm5" jdbcType="INTEGER" property="ttm5" />
+    <result column="plc_addr" jdbcType="VARCHAR" property="plcAddr" />
+    <result column="tbmId" jdbcType="VARCHAR" property="tbmid" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -71,16 +67,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, code, ttm1, ttm2, ttm3, ttm4, ttm5, remark
+    id, code, plc_addr, tbmId, remark
   </sql>
-  <select id="selectByExample" parameterType="com.fzq.EecelImport.entity.TbmCodeClassExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.fzq.EecelImport.entity.ProjTbmCodeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     'false' as QUERYID,
     <include refid="Base_Column_List" />
-    from tbm_code_class
+    from proj_tbm_code
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -91,47 +87,33 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from tbm_code_class
+    from proj_tbm_code
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from tbm_code_class
+    delete from proj_tbm_code
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.fzq.EecelImport.entity.TbmCodeClass">
-    insert into tbm_code_class (id, name, code, 
-      ttm1, ttm2, ttm3, ttm4, 
-      ttm5, remark)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
-      #{ttm1,jdbcType=INTEGER}, #{ttm2,jdbcType=INTEGER}, #{ttm3,jdbcType=INTEGER}, #{ttm4,jdbcType=INTEGER}, 
-      #{ttm5,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.fzq.EecelImport.entity.ProjTbmCode">
+    insert into proj_tbm_code (id, code, plc_addr, 
+      tbmId, remark)
+    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{plcAddr,jdbcType=VARCHAR}, 
+      #{tbmid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.fzq.EecelImport.entity.TbmCodeClass">
-    insert into tbm_code_class
+  <insert id="insertSelective" parameterType="com.fzq.EecelImport.entity.ProjTbmCode">
+    insert into proj_tbm_code
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="name != null">
-        name,
-      </if>
       <if test="code != null">
         code,
       </if>
-      <if test="ttm1 != null">
-        ttm1,
+      <if test="plcAddr != null">
+        plc_addr,
       </if>
-      <if test="ttm2 != null">
-        ttm2,
-      </if>
-      <if test="ttm3 != null">
-        ttm3,
-      </if>
-      <if test="ttm4 != null">
-        ttm4,
-      </if>
-      <if test="ttm5 != null">
-        ttm5,
+      <if test="tbmid != null">
+        tbmId,
       </if>
       <if test="remark != null">
         remark,
@@ -141,26 +123,14 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
       <if test="code != null">
         #{code,jdbcType=VARCHAR},
       </if>
-      <if test="ttm1 != null">
-        #{ttm1,jdbcType=INTEGER},
+      <if test="plcAddr != null">
+        #{plcAddr,jdbcType=VARCHAR},
       </if>
-      <if test="ttm2 != null">
-        #{ttm2,jdbcType=INTEGER},
-      </if>
-      <if test="ttm3 != null">
-        #{ttm3,jdbcType=INTEGER},
-      </if>
-      <if test="ttm4 != null">
-        #{ttm4,jdbcType=INTEGER},
-      </if>
-      <if test="ttm5 != null">
-        #{ttm5,jdbcType=INTEGER},
+      <if test="tbmid != null">
+        #{tbmid,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -168,31 +138,19 @@
     </trim>
   </insert>
   <update id="updateByExampleSelective" parameterType="map">
-    update tbm_code_class
+    update proj_tbm_code
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
-      </if>
       <if test="record.code != null">
         code = #{record.code,jdbcType=VARCHAR},
       </if>
-      <if test="record.ttm1 != null">
-        ttm1 = #{record.ttm1,jdbcType=INTEGER},
+      <if test="record.plcAddr != null">
+        plc_addr = #{record.plcAddr,jdbcType=VARCHAR},
       </if>
-      <if test="record.ttm2 != null">
-        ttm2 = #{record.ttm2,jdbcType=INTEGER},
-      </if>
-      <if test="record.ttm3 != null">
-        ttm3 = #{record.ttm3,jdbcType=INTEGER},
-      </if>
-      <if test="record.ttm4 != null">
-        ttm4 = #{record.ttm4,jdbcType=INTEGER},
-      </if>
-      <if test="record.ttm5 != null">
-        ttm5 = #{record.ttm5,jdbcType=INTEGER},
+      <if test="record.tbmid != null">
+        tbmId = #{record.tbmid,jdbcType=VARCHAR},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -203,43 +161,27 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update tbm_code_class
+    update proj_tbm_code
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
       code = #{record.code,jdbcType=VARCHAR},
-      ttm1 = #{record.ttm1,jdbcType=INTEGER},
-      ttm2 = #{record.ttm2,jdbcType=INTEGER},
-      ttm3 = #{record.ttm3,jdbcType=INTEGER},
-      ttm4 = #{record.ttm4,jdbcType=INTEGER},
-      ttm5 = #{record.ttm5,jdbcType=INTEGER},
+      plc_addr = #{record.plcAddr,jdbcType=VARCHAR},
+      tbmId = #{record.tbmid,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.fzq.EecelImport.entity.TbmCodeClass">
-    update tbm_code_class
+  <update id="updateByPrimaryKeySelective" parameterType="com.fzq.EecelImport.entity.ProjTbmCode">
+    update proj_tbm_code
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
       <if test="code != null">
         code = #{code,jdbcType=VARCHAR},
       </if>
-      <if test="ttm1 != null">
-        ttm1 = #{ttm1,jdbcType=INTEGER},
+      <if test="plcAddr != null">
+        plc_addr = #{plcAddr,jdbcType=VARCHAR},
       </if>
-      <if test="ttm2 != null">
-        ttm2 = #{ttm2,jdbcType=INTEGER},
-      </if>
-      <if test="ttm3 != null">
-        ttm3 = #{ttm3,jdbcType=INTEGER},
-      </if>
-      <if test="ttm4 != null">
-        ttm4 = #{ttm4,jdbcType=INTEGER},
-      </if>
-      <if test="ttm5 != null">
-        ttm5 = #{ttm5,jdbcType=INTEGER},
+      <if test="tbmid != null">
+        tbmId = #{tbmid,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -247,15 +189,11 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.fzq.EecelImport.entity.TbmCodeClass">
-    update tbm_code_class
-    set name = #{name,jdbcType=VARCHAR},
-      code = #{code,jdbcType=VARCHAR},
-      ttm1 = #{ttm1,jdbcType=INTEGER},
-      ttm2 = #{ttm2,jdbcType=INTEGER},
-      ttm3 = #{ttm3,jdbcType=INTEGER},
-      ttm4 = #{ttm4,jdbcType=INTEGER},
-      ttm5 = #{ttm5,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.fzq.EecelImport.entity.ProjTbmCode">
+    update proj_tbm_code
+    set code = #{code,jdbcType=VARCHAR},
+      plc_addr = #{plcAddr,jdbcType=VARCHAR},
+      tbmId = #{tbmid,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
