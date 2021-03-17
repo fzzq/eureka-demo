@@ -33,17 +33,13 @@ public class ESBean {
 
     @PostConstruct
     public void initialize() throws Exception {
-        Settings esSettings = Settings.builder()
-                .put("cluster.name", esClusterName)
-                .put("client.transport.sniff", true).build();
-        client = new PreBuiltTransportClient(esSettings);
+        Settings settings = Settings.builder()
+                .put("cluster.name", "my-application").put("client.transport.sniff", true).build();
 
-        String[] esHosts = esHost.trim().split(",");
-        for (String host : esHosts) {
 
-            TransportAddress transportAddress = new TransportAddress(InetAddress.getByName(esHost), esPort);
-            client.addTransportAddress(transportAddress);
-        }
+
+         client = new PreBuiltTransportClient(settings)
+                .addTransportAddress(new TransportAddress(InetAddress.getByName("10.53.221.111"), 9300));
     }
 
     @Bean
