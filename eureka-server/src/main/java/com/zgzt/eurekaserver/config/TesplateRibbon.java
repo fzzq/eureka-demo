@@ -12,6 +12,7 @@ public class TesplateRibbon {
     @Bean
     @LoadBalanced
     RestTemplate restTemplate() {
+        System.out.println("ribbon  已加载 ");
         return new RestTemplate();
     }
 

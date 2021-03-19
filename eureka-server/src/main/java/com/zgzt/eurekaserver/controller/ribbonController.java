@@ -20,12 +20,14 @@ public class ribbonController {
     @Autowired
     private LoadBalancerClient  loadBalanced;
 
-//    @RequestMapping("/hi")
-//    @ResponseBody
+    @RequestMapping("/hi")
+    @ResponseBody
     public String sayHi(){
-        String forObject = restTemplate.getForObject("http://eureka-client/hi", String.class);
         ServiceInstance serviceInstance = loadBalanced.choose("eureka-client");
-        System.out.println("loadBalancerClient："+serviceInstance.getHost()+serviceInstance.getPort());
+
+        String forObject = restTemplate.getForObject("http://eureka-client/hi", String.class);
+        System.out.println("loadBalancerClient："+serviceInstance.getHost()+"::::::"+serviceInstance.getPort());
+        System.out.println(forObject);
         return forObject;
     }
 }
