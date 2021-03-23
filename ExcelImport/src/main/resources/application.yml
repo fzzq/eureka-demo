@@ -25,7 +25,7 @@ spring:
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
 
 server:
-  port: 9004
+  port: 9006
 
 
 

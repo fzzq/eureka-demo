@@ -6,5 +6,5 @@ spring:
       uri: http://localhost:9004
       fail-fast: true
   profiles:
-    active: prod
+    active: dev
 
